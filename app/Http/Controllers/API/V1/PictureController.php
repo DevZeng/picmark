@@ -93,5 +93,20 @@ class PictureController extends Controller
             'data'=>$pictures
         ]);
     }
+    public function getPicture($id)
+    {
+        $picture = Picture::find($id);
+        if (empty($picture)){
+            return response()->json([
+                'code'=>'ERROR',
+                'message'=>"没找到该图片！"
+            ]);
+        }
+        $picture->mark = $picture->mark();
+        return response()->json([
+            'code'=>"OK",
+            'data'=>$picture
+        ]);
+    }
 }
 

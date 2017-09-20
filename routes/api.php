@@ -24,4 +24,5 @@ Route::group(['prefix'=>'v1'],function (){
     Route::post('picture','API\V1\PictureController@addPicture');
     Route::post('picture/{id}/mark','API\V1\PictureController@addMark');
     Route::get('pictures','API\V1\PictureController@getPictures');
+    Route::get('picture/{id}','API\V1\PictureController@getPicture');
 });
