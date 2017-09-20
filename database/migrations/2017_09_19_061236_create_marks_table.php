@@ -23,6 +23,9 @@ class CreateMarksTable extends Migration
             $table->tinyInteger('expression');
             $table->tinyInteger('color');
             $table->tinyInteger('speed');
+            $table->string('pic_url',500);
+            $table->tinyInteger('issue');
+            $table->tinyInteger('redo')->default(1);
             $table->text('detail');
             $table->timestamps();
         });

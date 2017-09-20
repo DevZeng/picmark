@@ -65,6 +65,9 @@ class PictureController extends Controller
         $mark->color = Input::get('color');
         $mark->speed = Input::get('speed');
         $mark->detail = Input::get('detail');
+        $mark->pic_url = Input::get('pic_url');
+        $mark->issue = Input::get('issue');
+        $mark->redo = Input::get('redo');
         if ($mark->save()) {
             $picture->state = 2;
             $picture->save();
