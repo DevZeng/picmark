@@ -45,7 +45,7 @@ class PictureController extends Controller
         if (empty($picture)){
             return response()->json([
                 'code'=>'ERROR',
-                'message'=>"NOT FOUNT"
+                'message'=>"没找到该图片！"
             ]);
         }
         if ($picture->state==2){

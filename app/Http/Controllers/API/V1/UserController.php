@@ -35,18 +35,16 @@ class UserController extends Controller
                 $key = createNonceStr();
                 setUserToken($key,$ouser->id);
                 return response()->json([
-                    'code'=>'200',
-                    'msg'=>'success',
-                    'data'=>$key
+                    'code'=>'OK',
+                    'token'=>$key
                 ]);
             }
         }else{
             $key = createNonceStr();
             setUserToken($key,$info->id);
             return response()->json([
-                'code'=>'200',
-                'msg'=>'success',
-                'data'=>$key
+                'code'=>'OK',
+                'token'=>$key
             ]);
         }
     }
@@ -64,7 +62,7 @@ class UserController extends Controller
             setTeacherToken($key,$teacher->id);
             return response()->json([
                 'code'=>'OK',
-                'data'=>$key
+                'token'=>$key
             ]);
         }
     }
