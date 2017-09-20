@@ -45,11 +45,13 @@ class PictureController extends Controller
         $picture = Picture::find($id);
         if (empty($picture)){
             return response()->json([
+                'code'=>'ERROR',
                 'message'=>"没找到该图片！"
             ],422);
         }
         if ($picture->state==2){
             return response()->json([
+                'code'=>'ERROR',
                 'message'=>"已点评过的不能再点评!"
             ],422);
         }
@@ -96,6 +98,7 @@ class PictureController extends Controller
         $picture = Picture::find($id);
         if (empty($picture)){
             return response()->json([
+                'code'=>'ERROR',
                 'message'=>"没找到该图片！"
             ],404);
         }
