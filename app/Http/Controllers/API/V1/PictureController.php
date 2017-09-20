@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\V1;
 use App\Http\Requests\PicturePost;
 use App\Models\Mark;
 use App\Models\Picture;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
@@ -71,6 +72,26 @@ class PictureController extends Controller
                 'code'=>'OK'
             ]);
         }
+    }
+    public function getPictures()
+    {
+        $type = Input::get('type',1);
+        $page = Input::get('page',1);
+        $limit = Input::get('limit',10);
+        if ($type==1){
+            $pictures = Picture::where([
+                'user_id'=>getUserToken(Input::get('token'))
+            ])->limit($limit)->offset(($page-1)*$limit)->get();
+        }else{
+            $category = Teacher::find(getTeacherToken(Input::get('token')))->category;
+            $pictures = Picture::where([
+                'category'=>$category
+            ])->limit($limit)->offset(($page-1)*$limit)->get();
+        }
+        return response()->json([
+            'code'=>'OK',
+            'data'=>$pictures
+        ]);
     }
 }
 
