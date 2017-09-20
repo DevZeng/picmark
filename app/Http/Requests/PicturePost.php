@@ -49,8 +49,7 @@ class PicturePost extends FormRequest
     public function response(array $errors)
     {
         return new JsonResponse([
-            'return_msg'=>$errors[0],
-            'return_code'=>'FAIL'
+            'message'=>$errors[0]
         ], 422);
     }
 }
