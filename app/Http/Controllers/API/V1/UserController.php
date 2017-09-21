@@ -118,7 +118,8 @@ class UserController extends Controller
         $date = date('Y-m-01 0:0:0',strtotime($time));
         $end = date('Y-m-d 23:59:59', strtotime("$date +1 month -1 day"));
         $id = getTeacherToken(Input::get('token'));
-        $count = Picture::where('sdtate','=',2)->where('teacher_id','=',$id)->whereBetween('created_at', ["'".$date."'","'".$end."'" ])->sum('price');
+        $count = Picture::where('state','=',2)->where('teacher_id','=',$id)->whereBetween('created_at', ["'".$date."'","'".$end."'" ])->sum('price');
+        dd($count);
         return response()->json([
             'code'=>'OK',
             'data'=>$count
