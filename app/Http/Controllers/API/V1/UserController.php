@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\V1;
 use App\Http\Requests\TeacherPost;
 use App\Libraries\Wxxcx;
 use App\Models\Mark;
+use App\Models\Picture;
 use App\Models\Teacher;
 use App\Models\WechatUser;
 use Illuminate\Http\Request;
@@ -109,5 +110,18 @@ class UserController extends Controller
                 'code'=>"OK"
             ]);
         }
+    }
+
+    public function count()
+    {
+        $time = Input::get('time',date('Y-m-d',time()));
+        $date = date('Y-m-01 0:0:0',strtotime($time));
+        $end = date('Y-m-d 23:59:59', strtotime("$date +1 month -1 day"));
+        $id = getTeacherToken(Input::get('token'));
+        $count = Picture::sum('price')->where('state','=',2)->where('teacher_id','=',$id)->whereBetween('created_at', ["'".$date."'","'".$end."'" ])->first();
+        return response()->json([
+            'code'=>'OK',
+            'data'=>$count
+        ]);
     }
 }

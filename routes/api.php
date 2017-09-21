@@ -27,6 +27,7 @@ Route::group(['prefix'=>'v1'],function (){
     Route::get('pictures','API\V1\PictureController@getPictures');
     Route::get('picture/{id}','API\V1\PictureController@getPicture');
     Route::get('count','API\V1\PictureController@count');
+    Route::get('teacher/count','API\V1\UserController@count');
     Route::post('teacher','API\V1\UserController@addTeacher');
     Route::get('teachers','API\V1\UserController@getTeachers');
     Route::delete('teacher','API\V1\UserController@delTeacher');
