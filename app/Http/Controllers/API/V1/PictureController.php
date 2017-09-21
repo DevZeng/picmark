@@ -8,6 +8,7 @@ use App\Models\Picture;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 
 class PictureController extends Controller
@@ -83,9 +84,11 @@ class PictureController extends Controller
         $limit = Input::get('limit',10);
         if ($type==1){
             $pictures = Picture::where('user_id','=',getUserToken(Input::get('token')))->where('state','!=','0')->limit($limit)->offset(($page-1)*$limit)->get();
-        }else{
+        }elseif ($type==2){
             $category = Teacher::find(getTeacherToken(Input::get('token')))->category;
             $pictures = Picture::where('category','=',$category)->where('state','!=','0')->limit($limit)->offset(($page-1)*$limit)->get();
+        }else{
+            $pictures = Picture::where('state','!=','0')->limit($limit)->offset(($page-1)*$limit)->get();
         }
         return response()->json([
             'code'=>'OK',
@@ -106,6 +109,29 @@ class PictureController extends Controller
             'code'=>"OK",
             'data'=>$picture
         ]);
+    }
+    public function count()
+    {
+        $time = Input::get('time',date('Y-m-d',time()));
+        $date = date('Y-m-01 0:0:0',strtotime($time));
+        $end = date('Y-m-d 23:59:59', strtotime("$date +1 month -1 day"));
+        $sql = getCountSql($date,$end);
+        $count = DB::select($sql);
+        $count = $this->formatCount($count);
+        return response()->json([
+            'code'=>'OK',
+            'data'=>$count
+        ]);
+    }
+    public function formatCount($count)
+    {
+        if (empty($count)){
+            return [];
+        }
+        for ($i=0;$i<count($count);$i++){
+            $count[$i]->teacher = Teacher::find($count[$i]->teacher_id)->name;
+        }
+        return $count;
     }
 }
 

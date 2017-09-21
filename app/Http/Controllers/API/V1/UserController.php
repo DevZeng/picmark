@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Http\Requests\TeacherPost;
 use App\Libraries\Wxxcx;
 use App\Models\Mark;
 use App\Models\Teacher;
 use App\Models\WechatUser;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 
 class UserController extends Controller
@@ -63,6 +65,48 @@ class UserController extends Controller
             return response()->json([
                 'code'=>'OK',
                 'token'=>$key
+            ]);
+        }
+    }
+    public function addTeacher(TeacherPost $teacherPost)
+    {
+        $teacher = new Teacher();
+        $teacher->name = $teacherPost->get('name');
+        $teacher->number = $teacherPost->get('number');
+        $teacher->category = $teacherPost->get('category');
+        if ($teacher->save()){
+            return response()->json([
+                'code'=>'OK'
+            ]);
+        }
+    }
+    public function getTeachers()
+    {
+        $limit = Input::get('limit',10);
+        $page = Input::get('page',1);
+        $teachers = Teacher::limit($limit)->offset(($page-1)*$limit)->get();
+        return response()->json([
+            'code'=>'OK',
+            'data'=>$teachers
+        ]);
+    }
+
+    public function delTeacher($id)
+    {
+        $teacher = Teacher::find($id);
+        if ($teacher->delete()){
+            return response()->json([
+                'code'=>'OK'
+            ]);
+        }
+    }
+    public function login()
+    {
+        $username = Input::get('username');
+        $password = Input::get('password');
+        if (Auth::attempt(['name'=>$username,'password'=>$password],true)){
+            return response()->json([
+                'code'=>"OK"
             ]);
         }
     }
