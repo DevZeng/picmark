@@ -24,7 +24,7 @@ class OrderController extends Controller
         $limit = Input::get('limit',10);
         $page = Input::get('page',1);
         $state = Input::get('state',1);
-        $orders = Order::where(['state'=>$state])->limit($limit)->offset(($page-1)*$limit);
+        $orders = Order::where(['state'=>$state])->limit($limit)->offset(($page-1)*$limit)->get();
         return response()->json([
             'code'=>'OK',
             'data'=>$orders

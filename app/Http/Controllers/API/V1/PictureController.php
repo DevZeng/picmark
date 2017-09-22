@@ -21,6 +21,7 @@ class PictureController extends Controller
         $picture->user_id = getUserToken($picturePost->get('token'));
         $picture->category = $picturePost->get('category');
         $money = $picturePost->get('money',0);
+        $picture->price = $money;
         if ($money==0){
             $picture->state = 1;
             $picture->save();
@@ -71,6 +72,7 @@ class PictureController extends Controller
         $mark->redo = Input::get('redo');
         if ($mark->save()) {
             $picture->state = 2;
+            $picture->teacher_id = getTeacherToken(Input::get('token'));
             $picture->save();
             return response()->json([
                 'code'=>'OK'
@@ -118,6 +120,7 @@ class PictureController extends Controller
         $sql = getCountSql($date,$end);
         $count = DB::select($sql);
         $count = $this->formatCount($count);
+//        dd($count);
         return response()->json([
             'code'=>'OK',
             'data'=>$count
@@ -129,7 +132,9 @@ class PictureController extends Controller
             return [];
         }
         for ($i=0;$i<count($count);$i++){
-            $count[$i]->teacher = Teacher::find($count[$i]->teacher_id)->name;
+            $teacher = Teacher::find($count[$i]->teacher_id);
+            $count[$i]->teacher = $teacher->name;
+            $count[$i]->number = $teacher->number;
         }
         return $count;
     }

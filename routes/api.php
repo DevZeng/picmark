@@ -19,17 +19,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('test','API\V1\UserController@test');
 Route::group(['prefix'=>'v1'],function (){
     Route::post('oath/login','API\V1\UserController@OAuthLogin');
-    Route::post('login','API\V1\UserController@login');
     Route::post('teacher/login','API\V1\UserController@TeacherLogin');
     Route::post('upload','API\V1\UploadController@uploadImage');
-    Route::post('picture','API\V1\PictureController@addPicture');
-    Route::post('picture/{id}/mark','API\V1\PictureController@addMark');
+    Route::post('picture','API\V1\PictureController@addPicture')->middleware('student');
+    Route::post('picture/{id}/mark','API\V1\PictureController@addMark')->middleware('teacher');
     Route::get('pictures','API\V1\PictureController@getPictures');
     Route::get('picture/{id}','API\V1\PictureController@getPicture');
-    Route::get('count','API\V1\PictureController@count');
-    Route::get('teacher/count','API\V1\UserController@count');
-    Route::post('teacher','API\V1\UserController@addTeacher');
-    Route::get('teachers','API\V1\UserController@getTeachers');
-    Route::delete('teacher','API\V1\UserController@delTeacher');
-    Route::get('orders','API\V1\OrderController@getOrders');
+    Route::get('teacher/count','API\V1\UserController@count')->middleware('teacher');
+
 });
