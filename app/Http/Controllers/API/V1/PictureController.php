@@ -30,6 +30,7 @@ class PictureController extends Controller
             ]);
         }else{
             $number = self::makePaySn(getUserToken($picturePost->get('token')));
+            $picture->save();
             return response()->json([
                 'code'=>'OK',
                 'data'=>[
