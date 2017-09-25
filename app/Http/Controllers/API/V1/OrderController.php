@@ -26,7 +26,7 @@ class OrderController extends Controller
         if ($order->save()){
             return response()->json([
                 'code'=>'OK',
-                'data'=>$payment->pay($order->number,'打赏',(1*100))
+                'data'=>$payment->pay($order->number,'打赏',($order->price*100))
             ]);
         }
     }
