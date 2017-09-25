@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Requests\PicturePost;
+use App\Models\ArticlePicture;
 use App\Models\Mark;
 use App\Models\Picture;
 use App\Models\Teacher;
@@ -138,6 +139,27 @@ class PictureController extends Controller
             $count[$i]->number = $teacher->number;
         }
         return $count;
+    }
+    public function addArticle()
+    {
+        $type = Input::get('type');
+        if ($type) {
+            $article = ArticlePicture::where('type','=',$type)->first();
+            if (empty($article)){
+                $article = new ArticlePicture();
+            }
+            $article->url = Input::get('url');
+            if ($article->save()){
+                return response()->json([
+                    'code'=>'OK'
+                ]);
+            }
+        }else{
+            return response()->json([
+                'code'=>"ERROR",
+                'message'=>"参数错误！"
+            ]);
+        }
     }
 }
 
