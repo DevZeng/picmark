@@ -52,11 +52,7 @@ class WxPay
         $xmlData = $this->arrayToXml($parameters);
 //        dd($xmlData);
         $unifiedOrder = $this->xmlToArray($this->postXmlCurl($xmlData, $url, 60));
-        return [
-            'pa'=>$parameters,
-            'un'=>$unifiedOrder
-        ];
-//        return $unifiedOrder;
+        return $unifiedOrder;
     }
 
     private static function postXmlCurl($xml, $url, $second = 30,$useCert = false,$sslCert = '',$sslKey = '',$caInfo='')
