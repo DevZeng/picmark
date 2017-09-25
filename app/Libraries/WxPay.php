@@ -17,6 +17,7 @@ class WxPay
     private $mch_id;
     private $key;
     private $openid;
+    private $prepay_id;
 
     public function __construct($appid,$mch_id,$key,$openid='')
     {
@@ -42,7 +43,7 @@ class WxPay
             'body' => $body,
             'out_trade_no' => $out_trade_no,
             'total_fee' => $total_fee,
-            'notify_url' => 'http://119.23.255.177:8089/api/v1/pay/notify',
+            'notify_url' => config('wxxcx.notify_url'),
             'openid' => $this->openid,
             'trade_type' => 'JSAPI'
 //            'spbill_create_ip' =>
@@ -117,6 +118,7 @@ class WxPay
     private function weixinapp($out_trade_no,$body,$total_fee)
     {
         $unifiedOrder = $this->unifiedOrder($out_trade_no,$body,$total_fee);
+        $this->prepay_id = $unifiedOrder['prepay_id'];
         $parameters = [
             'appId' => $this->appid,
             'timeStamp' => ''. time() . '',
@@ -185,6 +187,10 @@ class WxPay
         $xmldata = $this->arrayToXml($parameters);
         $refundData = $this->xmlToArray($this->postXmlCurl($xmldata, $url, 60,TRUE,$sslCert,$sslKey,$caInfo));
         return $refundData;
+    }
+    public function getPrepayId()
+    {
+        return $this->prepay_id;
     }
 
 }
