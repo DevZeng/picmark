@@ -6,7 +6,8 @@
  * Time: 下午2:37
  */
 return [
-    'app_id'=>'wxd5b7e9a51e7e9dde',
+    'app_id'=>'wxac56e87967aca48e',
+//    'app_id'=>'wxd5b7e9a51e7e9dde',
     'secret'=>'2d0f3654e43976f10ffc706385dc7185',
 //    'secret'=>'fc6c2b662f6131f1a077098826c6256b',
     'api_key'=>'Sennki2017SYSg030571XRkh7788XsHx',
