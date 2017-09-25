@@ -20,5 +20,7 @@ Route::group(['middleware'=>'cross'],function (){
         Route::get('teacher/delete/{id}','API\V1\UserController@delTeacher');
         Route::get('orders','API\V1\OrderController@getOrders');
         Route::get('count','API\V1\PictureController@count');
+        Route::post('article','API\V1\PictureController@addArticle');
+        Route::post('upload','API\V1\UploadController@uploadImage');
     });
 });

@@ -148,6 +148,7 @@ class PictureController extends Controller
             if (empty($article)){
                 $article = new ArticlePicture();
             }
+            $article->name = Input::get('name');
             $article->url = Input::get('url');
             if ($article->save()){
                 return response()->json([
@@ -160,6 +161,14 @@ class PictureController extends Controller
                 'message'=>"参数错误！"
             ]);
         }
+    }
+    public function getArticle()
+    {
+        $article = ArticlePicture::where('type','=',Input::get('type'))->first();
+        return response()->json([
+            'code'=>'OK',
+            'data'=>$article
+        ]);
     }
 }
 

@@ -16,6 +16,7 @@ class CreateArticlePicturesTable extends Migration
         Schema::create('article_pictures', function (Blueprint $table) {
             $table->increments('id');
             $table->string('url',3000);
+            $table->string('name');
             $table->tinyInteger('type');
             $table->timestamps();
         });
