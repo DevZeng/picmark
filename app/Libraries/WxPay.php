@@ -48,6 +48,7 @@ class WxPay
 //            'spbill_create_ip' =>
         ];
         $parameters['sign'] = $this->getSign($parameters);
+        dd($parameters);
         $xmlData = $this->arrayToXml($parameters);
         $unifiedOrder = $this->xmlToArray($this->postXmlCurl($xmlData, $url, 60));
         return $unifiedOrder;
