@@ -28,7 +28,7 @@ class CheckToken
         }else{
             return response()->json([
                 'code'=>'ERROR',
-                'msg'=>'登录已过期！'
+                'message'=>'登录已过期！'
             ],403);
         }
     }
