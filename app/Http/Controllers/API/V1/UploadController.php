@@ -10,20 +10,26 @@ class UploadController extends Controller
     //
     public function uploadImage(Request $request)
     {
-        $file = $request->file('image');
+        if (!$request->hasFile('file')) {
+            return response()->json([
+                'code'=>'ERROR',
+                'message'=>"无法获取上传文件！"
+            ], 500);
+        }
+        $file = $request->file('file');
         $name = $file->getClientOriginalName();
         $name = explode('.',$name);
         if (count($name)!=2){
             return response()->json([
                 'code'=>'ERROR',
-                'msg'=>'非法文件名'
+                'message'=>'非法文件名'
             ]);
         }
         $allow = \Config::get('fileAllow');
         if (!in_array($name[1],$allow)){
             return response()->json([
                 'code'=>'ERROR',
-                'msg'=>'不支持的文件格式'
+                'message'=>'不支持的文件格式'
             ]);
         }
         $md5 = md5_file($file);
@@ -32,7 +38,7 @@ class UploadController extends Controller
         if (!$file){
             return response()->json([
                 'code'=>'ERROR',
-                'msg'=>'空文件'
+                'message'=>'空文件'
             ]);
         }
         if ($file->isValid()){
