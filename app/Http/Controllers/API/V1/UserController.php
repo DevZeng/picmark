@@ -119,9 +119,14 @@ class UserController extends Controller
         $end = date('Y-m-d 23:59:59', strtotime("$date +1 month -1 day"));
         $id = getTeacherToken(Input::get('token'));
         $count = Picture::where('state','=',2)->where('teacher_id','=',$id)->whereBetween('created_at', [$date,$end ])->sum('price');
+        $teacher = Teacher::find(getTeacherToken(Input::get('token')));
+        $category = empty($teacher)?0:$teacher->category;
         return response()->json([
             'code'=>'OK',
-            'data'=>$count
+            'data'=>[
+                'count'=>$count,
+                'category'=>$category
+            ]
         ]);
     }
 }

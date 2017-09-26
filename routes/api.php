@@ -28,5 +28,5 @@ Route::group(['prefix'=>'v1'],function (){
     Route::get('teacher/count','API\V1\UserController@count')->middleware('teacher');
     Route::post('order','API\V1\OrderController@makeOrder');
     Route::post('pay/notify','API\V1\OrderController@notify');
-    Route::get('article','API\V1\PictureController@getArticle');
+    Route::get('article','API\V1\PictureController@getArticle')->middleware('cross');
 });

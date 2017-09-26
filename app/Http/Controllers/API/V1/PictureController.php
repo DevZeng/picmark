@@ -152,6 +152,7 @@ class PictureController extends Controller
             }
             $article->name = Input::get('name');
             $article->url = Input::get('url');
+            $article->type = $type;
             if ($article->save()){
                 return response()->json([
                     'code'=>'OK'
