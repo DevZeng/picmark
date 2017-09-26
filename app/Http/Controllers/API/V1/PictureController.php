@@ -108,7 +108,7 @@ class PictureController extends Controller
                 'message'=>"没找到该图片！"
             ],404);
         }
-        $picture->mark = $picture->mark()->get();
+        $picture->mark = $picture->mark()->first();
         $picture->teacher = Teacher::find($picture->teacher_id)->name;
         return response()->json([
             'code'=>"OK",
