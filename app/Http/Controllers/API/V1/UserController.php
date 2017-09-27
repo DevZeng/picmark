@@ -54,7 +54,7 @@ class UserController extends Controller
     public function TeacherLogin()
     {
         $code = Input::get('code');
-        $teacher = Teacher::where('number','=',$code)->first();
+        $teacher = Teacher::where('number','=',$code)->where('state','=',1)->first();
         if (empty($teacher)){
             return response()->json([
                 'code'=>'ERROR',
@@ -85,7 +85,7 @@ class UserController extends Controller
     {
         $limit = Input::get('limit',10);
         $page = Input::get('page',1);
-        $teachers = Teacher::limit($limit)->offset(($page-1)*$limit)->get();
+        $teachers = Teacher::where('state','!=',0)->limit($limit)->offset(($page-1)*$limit)->get();
         return response()->json([
             'code'=>'OK',
             'data'=>$teachers
@@ -95,7 +95,8 @@ class UserController extends Controller
     public function delTeacher($id)
     {
         $teacher = Teacher::find($id);
-        if ($teacher->delete()){
+        $teacher->state = 0;
+        if ($teacher->save()){
             return response()->json([
                 'code'=>'OK'
             ]);
