@@ -151,4 +151,15 @@ class UserController extends Controller
             ]);
         }
     }
+    public function getConfig()
+    {
+        $config = SConfig::first();
+        if (empty($config)){
+            $config = new SConfig();
+        }
+        return response()->json([
+            'code'=>'OK',
+            'data'=>$config
+        ]);
+    }
 }

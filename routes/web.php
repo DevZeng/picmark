@@ -26,5 +26,6 @@ Route::group(['middleware'=>'cross'],function (){
         Route::get('count','API\V1\PictureController@count');
         Route::post('article','API\V1\PictureController@addArticle');
         Route::post('config','API\V1\UserController@modifyConfig');
+        Route::get('config','API\V1\UserController@getConfig');
     });
 });
