@@ -16,7 +16,12 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('test','API\V1\UserController@test');
+Route::get('test',function (){
+    $time = \Illuminate\Support\Facades\Input::get('time',date('Y-m-d',time()));
+    $date = date('Y-m-01 0:0:0',strtotime($time));
+    $end = date('Y-m-d 23:59:59', strtotime("$date +1 month -1 day"));
+    echo $end;
+});
 Route::group(['prefix'=>'v1'],function (){
     Route::post('oath/login','API\V1\UserController@OAuthLogin');
     Route::post('teacher/login','API\V1\UserController@TeacherLogin');

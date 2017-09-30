@@ -4,8 +4,10 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Http\Requests\TeacherPost;
 use App\Libraries\Wxxcx;
+use App\Models\Count;
 use App\Models\Mark;
 use App\Models\Picture;
+use App\Models\SConfig;
 use App\Models\Teacher;
 use App\Models\WechatUser;
 use Illuminate\Http\Request;
@@ -110,6 +112,11 @@ class UserController extends Controller
             return response()->json([
                 'code'=>"OK"
             ]);
+        }else{
+            return response()->json([
+                'code'=>"ERROR",
+                'message'=>'账户不存在或密码错误！'
+            ],422);
         }
     }
 
@@ -119,8 +126,8 @@ class UserController extends Controller
         $date = date('Y-m-01 0:0:0',strtotime($time));
         $end = date('Y-m-d 23:59:59', strtotime("$date +1 month -1 day"));
         $id = getTeacherToken(Input::get('token'));
-        $count = Picture::where('state','=',2)->where('teacher_id','=',$id)->whereBetween('created_at', [$date,$end ])->sum('price');
-        $teacher = Teacher::find(getTeacherToken(Input::get('token')));
+        $count = Count::where('teacher_id','=',$id)->whereBetween('created_at', [$date,$end ])->sum('price');
+        $teacher = Teacher::find($id);
         $category = empty($teacher)?0:$teacher->category;
         return response()->json([
             'code'=>'OK',
@@ -129,5 +136,19 @@ class UserController extends Controller
                 'category'=>$category
             ]
         ]);
+    }
+    public function modifyConfig()
+    {
+        $config = SConfig::first();
+        if (empty($config)){
+            $config = new SConfig();
+        }
+        $price = Input::get('price',1);
+        $config->price = $price;
+        if ($config->save()){
+            return response()->json([
+                'code'=>'OK'
+            ]);
+        }
     }
 }

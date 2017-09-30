@@ -48,7 +48,7 @@ if (!function_exists('getTeacherToken')) {
 if (!function_exists('getCountSql')) {
     function getCountSql($date,$end)
     {
-        $sql = "select teacher_id,sum(`price`) as count from `pictures` where `state` = 2 and `created_at` between '".$date ."' and '" .$end ."' group by `teacher_id`";
+        $sql = "select teacher_id,sum(`price`) as count from `counts` where  `created_at` between '".$date ."' and '" .$end ."' group by `teacher_id`";
         return $sql;
     }
 }

@@ -4,8 +4,10 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Http\Requests\PicturePost;
 use App\Models\ArticlePicture;
+use App\Models\Count;
 use App\Models\Mark;
 use App\Models\Picture;
+use App\Models\SConfig;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -59,9 +61,10 @@ class PictureController extends Controller
                 'message'=>"已点评过的不能再点评!"
             ],422);
         }
+        $teacher_id = getTeacherToken(Input::get('token'));
         $mark = new Mark();
         $mark->pic_id = $id;
-        $mark->teacher = getTeacherToken(Input::get('token'));
+        $mark->teacher = $teacher_id;
         $mark->score = Input::get('score');
         $mark->completion = Input::get('completion');
         $mark->concept = Input::get('concept');
@@ -74,8 +77,14 @@ class PictureController extends Controller
         $mark->redo = Input::get('redo');
         if ($mark->save()) {
             $picture->state = 2;
-            $picture->teacher_id = getTeacherToken(Input::get('token'));
+            $picture->teacher_id = $teacher_id;
             $picture->save();
+            $config = SConfig::first();
+            $count = new Count();
+            $count->teacher_id = $teacher_id;
+            $count->picture_id = $picture->id;
+            $count->price = $config->price;
+            $count->save();
             return response()->json([
                 'code'=>'OK'
             ]);
