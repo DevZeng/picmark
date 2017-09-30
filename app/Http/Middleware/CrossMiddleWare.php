@@ -16,7 +16,7 @@ class CrossMiddleWare
     public function handle($request, Closure $next)
     {
         $response = $next($request);
-        $response->header('Access-Control-Allow-Origin', 'http://192.168.3.44:8080');
+        $response->header('Access-Control-Allow-Origin', 'http://121.196.214.115:8082');
         $response->header('Access-Control-Allow-Headers', 'Origin, Content-Type, Cookie, Accept');
         $response->header('Access-Control-Allow-Methods', 'OPTIONS,GET, POST, PATCH, PUT, DELETE');
         $response->header('Access-Control-Allow-Credentials', 'true');
