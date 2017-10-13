@@ -120,6 +120,7 @@ class PictureController extends Controller
         $picture->mark = $picture->mark()->first();
         $teacher = Teacher::find($picture->teacher_id);
         $picture->teacher = empty($teacher)?'':$teacher->name;
+        $picture->teacher_desc = empty($teacher)?'':$teacher->description;
         return response()->json([
             'code'=>"OK",
             'data'=>$picture
