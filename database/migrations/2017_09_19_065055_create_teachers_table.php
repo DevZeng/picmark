@@ -18,6 +18,7 @@ class CreateTeachersTable extends Migration
             $table->unsignedInteger('category');
             $table->string('name');
             $table->string('number');
+            $table->string('description');
             $table->tinyInteger('state')->default(1);
             $table->timestamps();
         });

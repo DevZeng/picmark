@@ -77,6 +77,7 @@ class UserController extends Controller
         $teacher->name = $teacherPost->get('name');
         $teacher->number = $teacherPost->get('number');
         $teacher->category = $teacherPost->get('category');
+        $teacher->description = $teacherPost->get('description');
         if ($teacher->save()){
             return response()->json([
                 'code'=>'OK'

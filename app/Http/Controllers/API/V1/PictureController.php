@@ -182,5 +182,20 @@ class PictureController extends Controller
             'data'=>$article
         ]);
     }
+    public function delPicture($id)
+    {
+        $picture = Picture::find($id);
+        if (empty($picture)){
+            return response()->json([
+                'code'=>"ERROR",
+                'message'=>"参数错误！"
+            ]);
+        }
+        if ($picture->delete()){
+            return response()->json([
+                'code'=>'OK'
+            ]);
+        }
+    }
 }
 
