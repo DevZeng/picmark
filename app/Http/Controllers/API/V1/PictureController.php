@@ -197,5 +197,13 @@ class PictureController extends Controller
             ]);
         }
     }
+    public function pictureCount()
+    {
+        $count = Picture::where('state','!=','0')->count();
+        return response()->json([
+            'code'=>'OK',
+            'data'=>$count
+        ]);
+    }
 }
 

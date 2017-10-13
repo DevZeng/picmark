@@ -29,5 +29,6 @@ Route::group(['middleware'=>'cross'],function (){
         Route::get('config','API\V1\UserController@getConfig');
         Route::get('picture/delete/{id}','API\V1\PictureController@delPicture');
         Route::get('pictures','API\V1\PictureController@getPictures');
+        Route::get('count/pictures','API\V1\PictureController@pictureCount');
     });
 });
