@@ -9,6 +9,7 @@ use App\Models\Mark;
 use App\Models\Picture;
 use App\Models\SConfig;
 use App\Models\Teacher;
+use App\Models\WechatUser;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -102,6 +103,12 @@ class PictureController extends Controller
             $pictures = Picture::where('category','=',$category)->where('state','!=','0')->limit($limit)->offset(($page-1)*$limit)->get();
         }else{
             $pictures = Picture::where('state','!=','0')->limit($limit)->offset(($page-1)*$limit)->get();
+            $length = count($pictures);
+            if ($length!=0){
+                for ($i=0;$i<$length;$i++){
+                    $pictures[$i]->nickname = WechatUser::find($pictures[$i]->user_id)->nickname;
+                }
+            }
         }
         return response()->json([
             'code'=>'OK',
