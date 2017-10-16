@@ -17,7 +17,7 @@ Route::group(['middleware'=>'cross'],function (){
     Route::options('upload',function (){
         return 'SUCCESS';
     });
-    Route::post('login','API\V1\UserController@login');
+    Route::post('login',['as' => 'login', 'uses' => 'API\V1\UserController@login']);
     Route::group(['middleware'=>'auth'],function (){
         Route::post('teacher','API\V1\UserController@addTeacher');
         Route::get('teachers','API\V1\UserController@getTeachers');
