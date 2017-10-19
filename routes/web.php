@@ -23,6 +23,7 @@ Route::group(['middleware'=>'cross'],function (){
         Route::get('teachers','API\V1\UserController@getTeachers');
         Route::post('edit/teacher/{id}','API\V1\UserController@editTeacher');
         Route::get('teacher/delete/{id}','API\V1\UserController@delTeacher');
+        Route::get('count/teachers','API\V1\UserController@teacherCount');
         Route::get('orders','API\V1\OrderController@getOrders');
         Route::get('count','API\V1\PictureController@count');
         Route::post('article','API\V1\PictureController@addArticle');

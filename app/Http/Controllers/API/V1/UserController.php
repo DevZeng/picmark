@@ -184,4 +184,12 @@ class UserController extends Controller
             ]);
         }
     }
+    public function teacherCount()
+    {
+        $count = Teacher::where('state','!=',0)->count();
+        return response()->json([
+            'code'=>'OK',
+            'data'=>$count
+        ]);
+    }
 }
