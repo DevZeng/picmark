@@ -98,8 +98,7 @@ class UserController extends Controller
     public function delTeacher($id)
     {
         $teacher = Teacher::find($id);
-        $teacher->state = 0;
-        if ($teacher->save()){
+        if ($teacher->delete()){
             return response()->json([
                 'code'=>'OK'
             ]);
