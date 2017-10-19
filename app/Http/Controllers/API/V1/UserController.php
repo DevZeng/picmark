@@ -89,7 +89,7 @@ class UserController extends Controller
             return response()->json([
                 'code'=>'ERROR',
                 'message'=>'该编号已被使用！'
-            ]);
+            ],422);
         }
 
     }
