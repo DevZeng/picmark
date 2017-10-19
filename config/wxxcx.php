@@ -14,5 +14,6 @@ return [
     'api_key'=>'fc6c2b662f6131f1a088098826c6256b',
 //    'mch_id'=>'1487029332',
     'mch_id'=>'1489356262',
+    'notify_template'=>'2URPAKMI0aB_LjJRx5JQsCYhwmj6qjq2aa0Ut0acJxw',
     'notify_url'=>'http://119.23.255.177:8089/api/v1/pay/notify'
 ];

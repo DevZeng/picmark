@@ -21,6 +21,7 @@ Route::group(['middleware'=>'cross'],function (){
     Route::group(['middleware'=>'auth'],function (){
         Route::post('teacher','API\V1\UserController@addTeacher');
         Route::get('teachers','API\V1\UserController@getTeachers');
+        Route::post('edit/teacher','API\V1\UserController@editTeacher');
         Route::get('teacher/delete/{id}','API\V1\UserController@delTeacher');
         Route::get('orders','API\V1\OrderController@getOrders');
         Route::get('count','API\V1\PictureController@count');

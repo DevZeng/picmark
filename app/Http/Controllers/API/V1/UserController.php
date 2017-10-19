@@ -163,4 +163,25 @@ class UserController extends Controller
             'data'=>$config
         ]);
     }
+    public function editTeacher($id)
+    {
+        $teacher = Teacher::find($id);
+        if (empty($id)){
+            return response()->json([
+                'code'=>'ERROR',
+                'message'=>'该教师不存在！'
+            ],422);
+        }
+        $name = Input::get('name');
+        $desc = Input::get('description');
+        $code = Input::get('code');
+        $teacher->name = empty($name)?$teacher->name:$name;
+        $teacher->description = empty($desc)?$teacher->description:$desc;
+        $teacher->number = empty($code)?$teacher->number:$code;
+        if ($teacher->save()){
+            return response()->json([
+                'code'=>'OK'
+            ]);
+        }
+    }
 }

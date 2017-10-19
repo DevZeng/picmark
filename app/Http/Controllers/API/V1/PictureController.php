@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Requests\PicturePost;
+use App\Libraries\WxNotify;
 use App\Models\ArticlePicture;
 use App\Models\Count;
 use App\Models\Mark;
@@ -24,6 +25,7 @@ class PictureController extends Controller
         $picture->url = $picturePost->get('url');
         $picture->user_id = getUserToken($picturePost->get('token'));
         $picture->category = $picturePost->get('category');
+        $picture->notify_code = $picturePost->get('notify_code');
         $money = $picturePost->get('money',0);
         $picture->price = $money;
         if ($money==0){
@@ -86,6 +88,27 @@ class PictureController extends Controller
             $count->picture_id = $picture->id;
             $count->price = $config->price;
             $count->save();
+            $teacher = Teacher::find($teacher_id);
+            $wxNotify = new WxNotify(config('wxxcx.app_id'),config('wxxcx.secret'));
+            $data = [
+                "touser"=>WechatUser::find($picture->user_id)->open_id,
+                "template_id"=>config('wxxcx.notify_template'),
+                "form_id"=> $picture->notify_code,
+                "page"=>"pages/index/index",
+                "data"=>[
+                    "keyword1"=>[
+                        "value"=>config('teacher.'.$teacher->category)
+                    ],
+                    "keyword2"=>[
+                        "value"=>date('Y-m-d H:i:s',time())
+                    ],
+                    "keyword3"=>[
+                        "value"=>$teacher->name.'教师已点评'
+                    ]
+                ]
+            ];
+            $wxNotify->setAccessToken();
+            $data = $wxNotify->send(json_encode($data));
             return response()->json([
                 'code'=>'OK'
             ]);

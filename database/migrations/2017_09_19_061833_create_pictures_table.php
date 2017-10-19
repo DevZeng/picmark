@@ -19,6 +19,7 @@ class CreatePicturesTable extends Migration
             $table->string('url',300);
             $table->unsignedInteger('category');
             $table->tinyInteger('state')->default(0);
+            $table->string('notify_code')->nullable();
             $table->float('price')->default(0);
             $table->unsignedInteger('teacher_id')->default(0);
             $table->timestamps();
