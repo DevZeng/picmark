@@ -27,7 +27,7 @@ class TeacherPost extends FormRequest
     {
         return [
             //
-            'number'=>'required|unique:teachers|integer',
+            'number'=>'required|integer',
             'name'=>'required',
             'category'=>'required|integer',
         ];
@@ -36,7 +36,6 @@ class TeacherPost extends FormRequest
     {
         return [
             'number.required'=>'编号不能为空！',
-            'number.unique'=>'该编号已被使用！',
             'number.integer'=>'参数格式必须为整形！',
             'name.required'=>'姓名不能为空！',
             'category.required'=>'类别不能为空！',

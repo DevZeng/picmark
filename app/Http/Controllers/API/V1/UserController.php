@@ -73,16 +73,25 @@ class UserController extends Controller
     }
     public function addTeacher(TeacherPost $teacherPost)
     {
-        $teacher = new Teacher();
-        $teacher->name = $teacherPost->get('name');
-        $teacher->number = $teacherPost->get('number');
-        $teacher->category = $teacherPost->get('category');
-        $teacher->description = $teacherPost->get('description');
-        if ($teacher->save()){
+        $teacher = Teacher::where('number','=',$teacherPost->get('number'))->where('state','!=',0)->first();
+        if (empty($teacher)){
+            $teacher = new Teacher();
+            $teacher->name = $teacherPost->get('name');
+            $teacher->number = $teacherPost->get('number');
+            $teacher->category = $teacherPost->get('category');
+            $teacher->description = $teacherPost->get('description');
+            if ($teacher->save()){
+                return response()->json([
+                    'code'=>'OK'
+                ]);
+            }
+        }else{
             return response()->json([
-                'code'=>'OK'
+                'code'=>'ERROR',
+                'message'=>'该编号已被使用！'
             ]);
         }
+
     }
     public function getTeachers()
     {
@@ -98,7 +107,8 @@ class UserController extends Controller
     public function delTeacher($id)
     {
         $teacher = Teacher::find($id);
-        if ($teacher->delete()){
+        $teacher->state = 0;
+        if ($teacher->save()){
             return response()->json([
                 'code'=>'OK'
             ]);
