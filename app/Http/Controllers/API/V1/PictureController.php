@@ -130,6 +130,7 @@ class PictureController extends Controller
             if ($length!=0){
                 for ($i=0;$i<$length;$i++){
                     $pictures[$i]->nickname = WechatUser::find($pictures[$i]->user_id)->nickname;
+                    $pictures[$i]->avatarUrl = WechatUser::find($pictures[$i]->user_id)->avatarUrl;
                 }
             }
         }
