@@ -43,14 +43,13 @@ class WxPay
             'body' => $body,
             'out_trade_no' => $out_trade_no,
             'total_fee' => $total_fee,
-            'notify_url' => config('wxxcx.notify_url'),
+            'notify_url' => 'https://www.arch-seu.com/api/v1/pay/notify',
             'openid' => $this->openid,
             'trade_type' => 'JSAPI'
 //            'spbill_create_ip' =>
         ];
         $parameters['sign'] = $this->getSign($parameters);
         $xmlData = $this->arrayToXml($parameters);
-//        dd($xmlData);
         $unifiedOrder = $this->xmlToArray($this->postXmlCurl($xmlData, $url, 60));
         return $unifiedOrder;
     }

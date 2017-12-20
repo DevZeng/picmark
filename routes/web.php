@@ -10,8 +10,12 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-
+Route::get('test',function (){
+    \Illuminate\Support\Facades\Mail::raw('TEST',function ($message){
+        $to = '1045968406@qq.com';
+        $message->to($to)->subject('test');
+    });
+});
 Route::group(['middleware'=>'cross'],function (){
     Route::post('upload','API\V1\UploadController@uploadImage');
     Route::options('upload',function (){
