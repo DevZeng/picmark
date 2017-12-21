@@ -119,11 +119,12 @@ class PictureController extends Controller
         $type = Input::get('type',1);
         $page = Input::get('page',1);
         $limit = Input::get('limit',10);
+        $state = Input::get('state',1);
         if ($type==1){
             $pictures = Picture::where('user_id','=',getUserToken(Input::get('token')))->where('state','!=','0')->limit($limit)->offset(($page-1)*$limit)->get();
         }elseif ($type==2){
             $category = Teacher::find(getTeacherToken(Input::get('token')))->category;
-            $pictures = Picture::where('category','=',$category)->where('state','!=','0')->limit($limit)->offset(($page-1)*$limit)->get();
+            $pictures = Picture::where('category','=',$category)->where('state','=',$state)->limit($limit)->offset(($page-1)*$limit)->get();
         }else{
             $pictures = Picture::where('state','!=','0')->limit($limit)->offset(($page-1)*$limit)->get();
             $length = count($pictures);
