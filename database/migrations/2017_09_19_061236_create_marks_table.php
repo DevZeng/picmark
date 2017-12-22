@@ -26,6 +26,7 @@ class CreateMarksTable extends Migration
             $table->string('pic_url',500);
             $table->tinyInteger('issue');
             $table->tinyInteger('redo')->default(1);
+            $table->string('remark')->nullable();
             $table->text('detail');
             $table->timestamps();
         });

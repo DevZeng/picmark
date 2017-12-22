@@ -93,6 +93,7 @@ class PictureController extends Controller
         $mark->pic_url = Input::get('pic_url');
         $mark->issue = Input::get('issue');
         $mark->redo = Input::get('redo');
+        $mark->remark = Input::get('remark');
         if ($mark->save()) {
             $picture->state = 2;
             $picture->teacher_id = $teacher_id;
