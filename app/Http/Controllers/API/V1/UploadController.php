@@ -20,14 +20,14 @@ class UploadController extends Controller
         $name = $file->getClientOriginalName();
         $name = explode('.',$name);
         $allow = \Config::get('fileAllow');
-        if (!in_array($name[count($name)],$allow)){
+        if (!in_array($name[count($name)-1],$allow)){
             return response()->json([
                 'code'=>'ERROR',
                 'message'=>'不支持的文件格式'
             ]);
         }
         $md5 = md5_file($file);
-        $name = $name[1];
+        $name = $name[count($name)-1];
         $name = $md5.'.'.$name;
         if (!$file){
             return response()->json([

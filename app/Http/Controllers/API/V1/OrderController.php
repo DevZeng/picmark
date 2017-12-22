@@ -6,10 +6,12 @@ use App\Http\Requests\OrderPost;
 use App\Libraries\WxPay;
 use App\Models\Order;
 use App\Models\Picture;
+use App\Models\Teacher;
 use App\Models\WechatUser;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -73,6 +75,15 @@ class OrderController extends Controller
                 $order->state = 1;
                 $order->transaction_id = $wx['transaction_id'];
                 if ($order->save()){
+                    $teachers = Teacher::where('category','=',$picture->category)->get();
+                    for ($i=0;$i<count($teachers);$i++){
+                        $teacher = $teachers[$i];
+                        if (!empty($teacher->email)){
+                            Mail::raw('你有新的图片需要点评！',function ($message) use($teacher){
+                                $message->to($teacher->email)->subject('提醒');
+                            });
+                        }
+                    }
                     return 'SUCCESS';
                 }
             }
