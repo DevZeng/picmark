@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Mail;
+use Mockery\Exception;
 
 class OrderController extends Controller
 {
@@ -79,9 +80,13 @@ class OrderController extends Controller
                     for ($i=0;$i<count($teachers);$i++){
                         $teacher = $teachers[$i];
                         if (!empty($teacher->email)){
-                            Mail::raw('你有新的图片需要点评！',function ($message) use($teacher){
-                                $message->to($teacher->email)->subject('提醒');
-                            });
+                            try{
+                                Mail::raw('你有新的图片需要点评！',function ($message) use($teacher){
+                                    $message->to($teacher->email)->subject('提醒');
+                                });
+                            }catch (Exception $exception){
+
+                            }
                         }
                     }
                     return 'SUCCESS';
