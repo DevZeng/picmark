@@ -19,14 +19,8 @@ class UploadController extends Controller
         $file = $request->file('file');
         $name = $file->getClientOriginalName();
         $name = explode('.',$name);
-        if (count($name)!=2){
-            return response()->json([
-                'code'=>'ERROR',
-                'message'=>'非法文件名'
-            ]);
-        }
         $allow = \Config::get('fileAllow');
-        if (!in_array($name[1],$allow)){
+        if (!in_array($name[count($name)],$allow)){
             return response()->json([
                 'code'=>'ERROR',
                 'message'=>'不支持的文件格式'

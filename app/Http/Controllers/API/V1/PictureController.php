@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Mail;
 
 class PictureController extends Controller
 {
@@ -31,6 +32,15 @@ class PictureController extends Controller
         if ($money==0){
             $picture->state = 1;
             $picture->save();
+            $teachers = Teacher::where('category','=',$picture->category)->get();
+            for ($i=0;$i<count($teachers);$i++){
+                $teacher = $teachers[$i];
+                if (!empty($teacher->email)){
+                    Mail::raw('你有新的图片需要点评！',function ($message) use($teacher){
+                        $message->to($teacher->email)->subject('提醒');
+                    });
+                }
+            }
             return response()->json([
                 'code'=>'OK'
             ]);

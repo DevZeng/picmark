@@ -80,6 +80,7 @@ class UserController extends Controller
             $teacher->number = $teacherPost->get('number');
             $teacher->category = $teacherPost->get('category');
             $teacher->description = $teacherPost->get('description');
+            $teacher->email = $teacherPost->get('email');
             if ($teacher->save()){
                 return response()->json([
                     'code'=>'OK'
@@ -184,9 +185,11 @@ class UserController extends Controller
         $name = Input::get('name');
         $desc = Input::get('description');
         $code = Input::get('code');
+        $email = Input::get('email');
         $teacher->name = empty($name)?$teacher->name:$name;
         $teacher->description = empty($desc)?$teacher->description:$desc;
         $teacher->number = empty($code)?$teacher->number:$code;
+        $teacher->email = empty($email)?$teacher->email:$email;
         if ($teacher->save()){
             return response()->json([
                 'code'=>'OK'
